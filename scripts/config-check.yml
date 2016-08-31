@@ -1,0 +1,88 @@
+
+- hosts: [osp]
+  gather_facts: no
+  tasks:
+    - name: check ntptime
+      shell:  /usr/sbin/ntptime
+      register: ntpresult
+      failed_when: "'ERROR' in ntpresult.stdout"
+      changed_when: "'ERROR' in ntpresult.stdout"
+    - debug:
+        var: ntpresult.stdout
+
+    - name: show date & time
+      shell:  date
+      register: dateresult
+      changed_when: "never is not undefined"
+    - debug:
+        var: dateresult.stdout
+
+- hosts: [ctrl]
+  gather_facts: no
+  sudo: yes
+  tasks:
+    - name: check rabbitmq file_descriptors
+      shell: /sbin/rabbitmqctl report |grep -A3 file_descriptor
+      register: rabbitresult
+      failed_when: "'65336' not in rabbitresult.stdout"
+      changed_when: "'65336' not in rabbitresult.stdout"
+
+    - name: check for resize controller
+      shell: openstack-config --verbose --set /etc/nova/nova.conf DEFAULT allow_resize_to_same_host true
+      register: resizeout
+      changed_when: "'unchanged' not in resizeout.stderr"
+      notify: Restart Nova-Scheduler
+
+    - name: check for isolated metadata
+      shell: /usr/bin/grep '^enable_isolated_metadata = True' /etc/neutron/dhcp_agent.ini
+      register: isolatedmetadata
+      failed_when: "'True' not in isolatedmetadata.stdout"
+      changed_when: "'True' not in isolatedmetadata.stdout"
+    - debug:
+        var: isolatedmetadata.stdout
+
+    - name: check haproxy default maxconn
+      shell: /usr/bin/grep -i maxconn /etc/haproxy/haproxy.cfg
+      register: haproxyresult
+      failed_when: "'7624' not in haproxyresult.stdout"
+      changed_when: "'7624' not in haproxyresult.stdout"
+    - debug:
+        var: haproxyresult.stdout
+
+    - name: check glara max_connections
+      shell: /usr/bin/grep -i max_connections /etc/my.cnf.d/galera.cnf
+      register: galeraresult
+      failed_when: "'7624' not in galeraresult.stdout"
+      changed_when: "'7624' not in galeraresult.stdout"
+    - debug:
+        var: galeraresult.stdout
+
+    - name: check mysqld connections
+      shell: /bin/ps aux |grep mysql
+      register: mysqlresult
+      failed_when: "'16384' not in mysqlresult.stdout"
+      changed_when: "'16384' not in mysqlresult.stdout"
+    - debug:
+        var: mysqlresult.stdout
+
+- hosts: [cmpt]
+  gather_facts: no
+  sudo: yes
+  tasks:
+    - name: check for resize compute
+      shell: openstack-config --verbose --set /etc/nova/nova.conf DEFAULT allow_resize_to_same_host true
+      register: resizeout
+      changed_when: "'unchanged' not in resizeout.stderr"
+      notify: Restart Nova-Compute
+    - debug:
+        var: resizeout.stderr
+
+
+  handlers:
+    - name: Restart Nova-Compute
+      service: name=openstack-nova-compute state=restarted
+
+    - name: Restart Nova-Scheduler
+      shell: pcs resource restart openstack-nova-scheduler-clone
+      shell: pcs resource restart openstack-nova-api-clone
+      shell: pcs resource restart openstack-nova-conductor-clone

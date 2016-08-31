@@ -1,0 +1,38 @@
+[all:vars]
+ansible_ssh_user=heat-admin
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+ansible_sudo=true
+
+[osp:children]
+ctrl
+cmpt
+ceph
+strg
+
+[logging_host]
+rhel7-monitor
+
+[performance_host]
+rhel7-monitor
+
+[sensu_server]
+rhel7-monitor
+
+[cmpt]
+homelab-compute-0 ansible_ssh_host=192.168.115.74
+homelab-compute-1 ansible_ssh_host=192.168.115.73
+
+[ctrl]
+homelab-controller-0 ansible_ssh_host=192.168.115.75
+homelab-controller-1 ansible_ssh_host=192.168.115.77
+homelab-controller-2 ansible_ssh_host=192.168.115.76
+
+[ceph]
+homelab-cephstorage-0 ansible_ssh_host=192.168.115.72
+homelab-cephstorage-1 ansible_ssh_host=192.168.115.70
+homelab-cephstorage-2 ansible_ssh_host=192.168.115.71
+
+[strg]
+
+[instack]
+undercloud ansible_ssh_host=192.168.115.10
