@@ -33,9 +33,9 @@ parameter_defaults:
   # Gateway router for the external network
   ExternalInterfaceDefaultRoute: 192.168.100.1
   # Gateway router for the provisioning network (or Undercloud IP)
-  ControlPlaneDefaultRoute: 192.0.2.254
+  ControlPlaneDefaultRoute: 192.168.120.1
   # Generally the IP of the Undercloud
-  EC2MetadataIp: 192.0.2.1
+  EC2MetadataIp: 192.168.120.10
   # Define the DNS servers (maximum 2) for the overcloud nodes
   DnsServers: ["8.8.8.8","8.8.4.4"]
   # Customize the VLAN IDs to match the local environment
