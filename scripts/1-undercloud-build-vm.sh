@@ -15,6 +15,14 @@ qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 undercloud.qcow2
 qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 controller.qcow2
 qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 compute.qcow2
 qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph.qcow2
+qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data1.qcow2
+qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data2.qcow2
+qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data3.qcow2
+qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data4.qcow2
+qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data5.qcow2
+qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data6.qcow2
+qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data7.qcow2
+qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data8.qcow2
 
 # remove cloud-init (causes delays and problems when not used on a cloud)
 virt-customize -a undercloud.qcow2 --run-command 'yum remove cloud-init* -y'
@@ -48,20 +56,34 @@ sudo virt-install --ram 4096 --vcpus 4 --os-variant rhel7 \
     --disk path=/virt1/controller.qcow2,device=disk,bus=virtio,format=qcow2 \
     --import --noautoconsole --vnc \
     --network  network=provision \
+    --network  network=storage \
+    --network  network=storage-mgmt \
+    --network  network=internal-api \
+    --network  network=tenant \
     --network  network=public \
-    --network  network=private \
     --name overcloud-controller
 
 sudo virt-install --ram 4096 --vcpus 4 --os-variant rhel7 \
     --disk path=/virt1/compute.qcow2,device=disk,bus=virtio,format=qcow2 \
     --import --noautoconsole --vnc \
     --network  network=provision \
-    --network  network=private \
+    --network  network=storage \
+    --network  network=internal-api \
+    --network  network=tenant \
     --name overcloud-compute
 
-sudo virt-install --ram 2046 --vcpus 4 --os-variant rhel7 \
+sudo virt-install --ram 4096 --vcpus 4 --os-variant rhel7 \
     --disk path=/virt1/ceph.qcow2,device=disk,bus=virtio,format=qcow2 \
+    --disk path=/virt1/ceph-data1.qcow2,device=disk,bus=virtio,format=qcow2 \
+    --disk path=/virt1/ceph-data2.qcow2,device=disk,bus=virtio,format=qcow2 \
+    --disk path=/virt1/ceph-data3.qcow2,device=disk,bus=virtio,format=qcow2 \
+    --disk path=/virt1/ceph-data4.qcow2,device=disk,bus=virtio,format=qcow2 \
+    --disk path=/virt1/ceph-data5.qcow2,device=disk,bus=virtio,format=qcow2 \
+    --disk path=/virt1/ceph-data6.qcow2,device=disk,bus=virtio,format=qcow2 \
+    --disk path=/virt1/ceph-data7.qcow2,device=disk,bus=virtio,format=qcow2 \
+    --disk path=/virt1/ceph-data8.qcow2,device=disk,bus=virtio,format=qcow2 \
     --import --noautoconsole --vnc \
     --network  network=provision \
-    --network  network=private \
+    --network  network=storage \
+    --network  network=storage-mgmt \
     --name overcloud-ceph

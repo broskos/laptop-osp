@@ -3,15 +3,15 @@
 resource_registry:
   # Network Interface templates to use (these files must exist)
   OS::TripleO::BlockStorage::Net::SoftwareConfig:
-    ../network/config/single-nic-vlans/cinder-storage.yaml
+    ../network/config/multiple-nics/cinder-storage.yaml
   OS::TripleO::Compute::Net::SoftwareConfig:
-    ../network/config/single-nic-vlans/compute.yaml
+    ../network/config/multiple-nics/compute.yaml
   OS::TripleO::Controller::Net::SoftwareConfig:
-    ../network/config/single-nic-vlans/controller.yaml
+    ../network/config/multiple-nics/controller.yaml
   OS::TripleO::ObjectStorage::Net::SoftwareConfig:
-    ../network/config/single-nic-vlans/swift-storage.yaml
+    ../network/config/multiple-nics/swift-storage.yaml
   OS::TripleO::CephStorage::Net::SoftwareConfig:
-    ../network/config/single-nic-vlans/ceph-storage.yaml
+    ../network/config/multiple-nics/ceph-storage.yaml
 
 parameter_defaults:
   # This section is where deployment-specific configuration is done
