@@ -36,10 +36,10 @@ curl -O http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
 curl -O http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
 
 glance image-create --name cirros --disk-format qcow2 \
-    --container-format bare --visibility public \
+    --container-format bare --is-public true \
     --file cirros-0.3.4-x86_64-disk.img
 #glance image-create --name rhel7 --min-ram 2048 --disk-format qcow2 \
-#    --container-format bare --visibility public --file \
+#    --container-format bare --is-public true --file \
 #      rhel-guest-image-7.1-20150224.0.x86_64.qcow2
 glance image-create --name centos7 --min-ram 2048 --disk-format qcow2 \
     --container-format bare --is-public true --file \
@@ -64,7 +64,7 @@ keystone user-create --name tenant1 --tenant tenant1 --pass p@ssw0rd
 # add ldap user tenant one (created in ipa-server-create-accounts.sh) to newly created tenant1 project
 openstack role add --project tenant1 --user tenant1 _member_
 
-cp ~/homelabrc ~/tenant1rc
+cp ~/$rcfile ~/tenant1rc
 sed -i 's/admin/tenant1/g' ~/tenant1rc
 sed -i 's/OS_PASSWORD.*/OS_PASSWORD=p@ssw0rd/g' ~/tenant1rc
 
