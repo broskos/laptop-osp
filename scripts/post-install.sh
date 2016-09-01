@@ -51,9 +51,9 @@ rm -f cirros-0.3.4-x86_64-disk.img rhel-guest-image-7.1-20150224.0.x86_64.qcow2 
 # Create Public network
 neutron net-create public --router:external=true \
   --provider:physical_network=datacentre --provider:network_type=flat
-neutron subnet-create public 192.168.113.0/24 \
+neutron subnet-create public 192.168.100.0/24 \
     --name public_subnet --disable-dhcp --allocation-pool \
-    start=192.168.113.150,end=192.168.113.200 --gateway 192.168.113.1
+    start=192.168.100.150,end=192.168.100.200 --gateway 192.168.100.1
 
 # create test tenant
 keystone tenant-create --name tenant1 --description "Demo Tenant1"
@@ -89,7 +89,7 @@ nova keypair-add --pub-key ~/.ssh/id_rsa.pub undercloud-key
 nova boot --flavor m1.tiny --image cirros --key-name undercloud-key tenant1-test1
 sleep 5
 neutron floatingip-create public
-nova add-floating-ip tenant1-test1 192.168.113.151
+nova add-floating-ip tenant1-test1 192.168.100.151
 
 ## create sensu tenant and user for overcloud
 #source $rcfile
