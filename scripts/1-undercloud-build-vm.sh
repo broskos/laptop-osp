@@ -52,7 +52,7 @@ sudo virt-install --ram 8096 --vcpus 4 --os-variant rhel7 \
     --name undercloud
 
 # Build controller, compute and ceph vms
-sudo virt-install --ram 4096 --vcpus 4 --os-variant rhel7 \
+sudo virt-install --ram 8192 --vcpus 4 --os-variant rhel7 \
     --disk path=/virt1/controller.qcow2,device=disk,bus=virtio,format=qcow2 \
     --import --noautoconsole --vnc \
     --network  network=provision \

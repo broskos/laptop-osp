@@ -3,28 +3,28 @@
 source ~/laptop-osp8/scripts/0-site-settings.sh
 export webserver_url="$webserver_url/images"
 
-# update IDs in assignment table to be the ldap usernames, easiest to just hop on a controller and do it as root.
-source ~/stackrc
-controller_ip=$(nova list  | grep controller-0|awk '{print $12}' |sed 's/ctlplane=//g')
-ssh -T -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -l heat-admin $controller_ip << EOF_ALL
-sudo mysql keystone << EOF
-update assignment set actor_id = 'cinder' where actor_id = ( select id from user where name = 'cinder');
-update assignment set actor_id = 'neutron' where actor_id = ( select id from user where name = 'neutron');
-update assignment set actor_id = 'glance' where actor_id = ( select id from user where name = 'glance');
-update assignment set actor_id = 'nova' where actor_id = ( select id from user where name = 'nova');
-update assignment set actor_id = 'swift' where actor_id = ( select id from user where name = 'swift');
-update assignment set actor_id = 'admin' where actor_id = ( select id from user where name = 'admin');
-update assignment set actor_id = 'ceilometer' where actor_id = ( select id from user where name = 'ceilometer');
-update assignment set actor_id = 'heat' where actor_id = ( select id from user where name = 'heat');
-update assignment set actor_id = 'ceilometer' where actor_id = ( select id from user where name = 'ceilometer');
-update assignment set actor_id = 'cinderv2' where actor_id = ( select id from user where name = 'cinderv2');
-EOF
-
-sleep 2
-pcs resource restart openstack-keystone-clone --all
-sleep 2
-exit
-EOF_ALL
+## update IDs in assignment table to be the ldap usernames, easiest to just hop on a controller and do it as root.
+#source ~/stackrc
+#controller_ip=$(nova list  | grep controller-0|awk '{print $12}' |sed 's/ctlplane=//g')
+#ssh -T -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -l heat-admin $controller_ip << EOF_ALL
+#sudo mysql keystone << EOF
+#update assignment set actor_id = 'cinder' where actor_id = ( select id from user where name = 'cinder');
+#update assignment set actor_id = 'neutron' where actor_id = ( select id from user where name = 'neutron');
+#update assignment set actor_id = 'glance' where actor_id = ( select id from user where name = 'glance');
+#update assignment set actor_id = 'nova' where actor_id = ( select id from user where name = 'nova');
+#update assignment set actor_id = 'swift' where actor_id = ( select id from user where name = 'swift');
+#update assignment set actor_id = 'admin' where actor_id = ( select id from user where name = 'admin');
+#update assignment set actor_id = 'ceilometer' where actor_id = ( select id from user where name = 'ceilometer');
+#update assignment set actor_id = 'heat' where actor_id = ( select id from user where name = 'heat');
+#update assignment set actor_id = 'ceilometer' where actor_id = ( select id from user where name = 'ceilometer');
+#update assignment set actor_id = 'cinderv2' where actor_id = ( select id from user where name = 'cinderv2');
+#EOF
+#
+#sleep 2
+#pcs resource restart openstack-keystone-clone --all
+#sleep 2
+#exit
+#EOF_ALL
 
 
 # become admin user
@@ -91,12 +91,12 @@ sleep 5
 neutron floatingip-create public
 nova add-floating-ip tenant1-test1 192.168.113.151
 
-# create sensu tenant and user for overcloud
-source $rcfile
-keystone tenant-create --name monitoring --description "Sensu Tenant"
-keystone user-create --name sensu --tenant monitoring --pass sensu
+## create sensu tenant and user for overcloud
+#source $rcfile
+#keystone tenant-create --name monitoring --description "Sensu Tenant"
+#keystone user-create --name sensu --tenant monitoring --pass sensu
 
 # create sensu tenant and user for undercloud
-source ~/stackrc
-keystone tenant-create --name monitoring --description "Sensu Tenant"
-keystone user-create --name sensu --tenant monitoring --pass sensu
+#source ~/stackrc
+#keystone tenant-create --name monitoring --description "Sensu Tenant"
+#keystone user-create --name sensu --tenant monitoring --pass sensu

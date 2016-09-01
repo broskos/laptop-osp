@@ -20,7 +20,7 @@ openstack undercloud install
 source ~/stackrc
 
 # get images, upload to undercloud
-sudo sudo yum install rhosp-director-images rhosp-director-images-ipa
+sudo sudo yum -y install rhosp-director-images rhosp-director-images-ipa
 mkdir ~/images
 cd ~/images
 for i in /usr/share/rhosp-director-images/overcloud-full-latest-9.0.tar \
@@ -29,10 +29,15 @@ for i in /usr/share/rhosp-director-images/overcloud-full-latest-9.0.tar \
 
 openstack overcloud image upload
 
+#copy your keys to your host
+ssh-copy-id stack@192.168.100.1
+
 # pull mac addresses from virsh
 for i in controller compute ceph; do \
 	virsh -c qemu+ssh://stack@192.168.100.1/system domiflist overcloud-$i | awk '$3 == "provision" {print $5};'; \
 	done > /tmp/nodes.txt
+
+cd ~
 
 # Create instack file
 jq . << EOF > ~/instackenv.json
