@@ -61,10 +61,7 @@ keystone tenant-create --name tenant1 --description "Demo Tenant1"
 # cant create user from keystone after ldap integration
 keystone user-create --name tenant1 --tenant tenant1 --pass p@ssw0rd
 
-# add ldap user tenant one (created in ipa-server-create-accounts.sh) to newly created tenant1 project
-openstack role add --project tenant1 --user tenant1 _member_
-
-cp ~/$rcfile ~/tenant1rc
+cp $rcfile ~/tenant1rc
 sed -i 's/admin/tenant1/g' ~/tenant1rc
 sed -i 's/OS_PASSWORD.*/OS_PASSWORD=p@ssw0rd/g' ~/tenant1rc
 
