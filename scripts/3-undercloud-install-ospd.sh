@@ -2,7 +2,7 @@
 # after reboot
 # run as STACK user su - stack
 
-source ~/laptop-osp8/scripts/0-site-settings.sh
+source ~/laptop-osp/scripts/0-site-settings.sh
 
 # are we root?  that's bad
 if [[ $EUID -eq 0 ]]; then
@@ -10,9 +10,13 @@ if [[ $EUID -eq 0 ]]; then
   exit 1
 fi
 
+echo "Please enter your password for the stack account on your laptop: "
+read -sr stack_pw
+export stack_pw
+
 # we store files in git that need to be in the
 # stack users home directory, fetch them out
-cp ~/laptop-osp8/stack-home/* ~
+cp ~/laptop-osp/stack-home/* ~
 
 # Install openstack undercloud
 cd ~

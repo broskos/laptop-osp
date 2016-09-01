@@ -8,6 +8,9 @@ export domain='home.brentandkrysti.com'
 export stack_password='redhat'
 export stack_name='laptop'
 export ntp_server='0.centos.pool.ntp.org'
+export osp_version='9'
+export cdn_username='broskos@redhat.com'
+export cdn_pool='8a85f9843e3d687a013e3ddd471a083e'
 
 ## ldap config
 #export ldap_url='ldaps://192.168.2.5:389/'

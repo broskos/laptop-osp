@@ -1,21 +1,18 @@
 #!/usr/bin/env bash
 # ssh to undercloud and run this script
 #
-source ~/laptop-osp8/scripts/0-site-settings.sh
+source ~/laptop-osp/scripts/0-site-settings.sh
 
-# register with satellite
-#echo "$satellite_server_ip $satellite_server.$domain $satellite_server" >> /etc/hosts
-#rpm -ivh http://$satellite_server.$domain/pub/katello-ca-consumer-latest.noarch.rpm
-#subscription-manager register --org "$organization" --activationkey $activation_key
-## subscription-manager attach --pool=1fcf540c50f247380150f255242d01de
-#subscription-manager repos --enable rhel-7-server-openstack-8-director-rpms
+echo "Please enter your RH cdn password: "
+read -sr cdn_password
+export cdn_password
 
-subscription-manager register
-subscription-manager attach --pool
+subscription-manager register  --username ${cdn_username} --password ${cdn_password}
+subscription-manager attach --pool ${cdn_pool}
 
 sudo subscription-manager repos --disable=*
 sudo subscription-manager repos --enable=rhel-7-server-rpms --enable=rhel-7-server-extras-rpms \
-    --enable=rhel-7-server-openstack-9-rpms --enable=rhel-7-server-openstack-9-director-rpms \
+    --enable=rhel-7-server-openstack-${osp_version}-rpms --enable=rhel-7-server-openstack-${osp_version}-director-rpms \
     --enable=rhel-7-server-rh-common-rpms
 
 # set hostname

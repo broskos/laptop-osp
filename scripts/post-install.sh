@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/laptop-osp8/scripts/0-site-settings.sh
+source ~/laptop-osp/scripts/0-site-settings.sh
 export webserver_url="$webserver_url/images"
 
 ## update IDs in assignment table to be the ldap usernames, easiest to just hop on a controller and do it as root.

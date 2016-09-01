@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/laptop-osp8/va/scripts/0-site-settings.sh
+source ~/laptop-osp/va/scripts/0-site-settings.sh
 
 # install necessary packages and start up libvirt
 yum install -y rhel-guest-image-7 libguestfs-tools libvirt qemu-kvm \
