@@ -40,7 +40,7 @@ Cinder:
             '': /v1/%(tenant_id)s
             V2: /v2/%(tenant_id)s
     Admin:
-        vip_param: CinderApi
+        vip_param: Public
         uri_suffixes:
             '': /v1/%(tenant_id)s
             V2: /v2/%(tenant_id)s
