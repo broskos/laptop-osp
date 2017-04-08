@@ -11,18 +11,18 @@ systemctl enable libvirtd && systemctl start libvirtd
 cd /virt1
 
 # create a clone of the base image and use it for the undercloud
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 undercloud.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 controller.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 compute.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data1.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data2.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data3.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data4.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data5.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data6.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data7.qcow2
-qemu-img create -f qcow2 -b rhel7.2-guest.qcow2 ceph-data8.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 undercloud.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 controller.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 compute.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 ceph.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 ceph-data1.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 ceph-data2.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 ceph-data3.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 ceph-data4.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 ceph-data5.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 ceph-data6.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 ceph-data7.qcow2
+qemu-img create -f qcow2 -b rhel7.3-guest.qcow2 ceph-data8.qcow2
 
 # remove cloud-init (causes delays and problems when not used on a cloud)
 virt-customize -a undercloud.qcow2 --run-command 'yum remove cloud-init* -y'

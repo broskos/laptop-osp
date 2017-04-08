@@ -5,9 +5,9 @@ description: >
   addresses. The ip_address_uri output will have brackets for use in URLs.
 
 parameters:
-  StorageNetName:
-    description: Name of the storage network
-    default: storage
+  ManagementNetName:
+    description: Name of the management network
+    default: management
     type: string
   PortName:
     description: Name of the port
@@ -25,28 +25,28 @@ parameters:
     default: 0
     description: Index of the IP to get from Pool
     type: number
-  StorageNetCidr:
-    default: 'fd00:fd00:fd00:3000::/64'
-    description: Cidr for the storage network.
+  ManagementNetCidr:
+    default: 'fd00:fd00:fd00:6000::/64'
+    description: Cidr for the management network.
     type: string
 
 outputs:
   ip_address:
-    description: storage network IP
-    value: {get_param: [IPPool, {get_param: StorageNetName}, {get_param: NodeIndex}]}
+    description: management network IP
+    value: {get_param: [IPPool, {get_param: ManagementNetName}, {get_param: NodeIndex}]}
   ip_address_uri:
-    description: storage network IP (for compatibility with storage_v6.yaml)
+    description: management network IP (for compatibility with management_v6.yaml)
     value:
           list_join:
           - ''
           - - '['
-            - {get_param: [IPPool, {get_param: StorageNetName}, {get_param: NodeIndex}]}
+            - {get_param: [IPPool, {get_param: ManagementNetName}, {get_param: NodeIndex}]}
             - ']'
   ip_subnet:
-    description: IP/Subnet CIDR for the storage network IP
+    description: IP/Subnet CIDR for the management network IP
     value:
       list_join:
       - ''
-      - - {get_param: [IPPool, {get_param: StorageNetName}, {get_param: NodeIndex}]}
+      - - {get_param: [IPPool, {get_param: ManagementNetName}, {get_param: NodeIndex}]}
         - '/'
-        - {str_split: ['/', {get_param: StorageNetCidr}, 1]}
+        - {str_split: ['/', {get_param: ManagementNetCidr}, 1]}

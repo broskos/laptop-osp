@@ -27,8 +27,8 @@ source ~/stackrc
 sudo sudo yum -y install rhosp-director-images rhosp-director-images-ipa
 mkdir ~/images
 cd ~/images
-for i in /usr/share/rhosp-director-images/overcloud-full-latest-9.0.tar \
-  /usr/share/rhosp-director-images/ironic-python-agent-latest-9.0.tar; \
+for i in /usr/share/rhosp-director-images/overcloud-full-latest-${osp_version}.0.tar \
+  /usr/share/rhosp-director-images/ironic-python-agent-latest-${osp_version}.0.tar; \
   do tar -xvf $i; done
 
 openstack overcloud image upload

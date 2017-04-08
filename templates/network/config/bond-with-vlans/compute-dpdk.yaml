@@ -1,8 +1,8 @@
 heat_template_version: 2015-04-30
 
 description: >
-  Software Config to drive os-net-config to configure multiple interfaces
-  for the swift storage role.
+  Software Config to drive os-net-config with 2 bonded nics on a bridge
+  with VLANs attached for the compute role.
 
 parameters:
   ControlPlaneIp:
@@ -32,6 +32,11 @@ parameters:
   ManagementIpSubnet: # Only populated when including environments/network-management.yaml
     default: ''
     description: IP address/subnet on the management network
+    type: string
+  BondInterfaceOvsOptions:
+    default: ''
+    description: The ovs_options string for the bond interface. Set things like
+                 lacp=active and/or bond_mode=balance-slb using this option.
     type: string
   ExternalNetworkVlanID:
     default: 10
@@ -108,40 +113,78 @@ resources:
                   default: true
                   next_hop: {get_param: ControlPlaneDefaultRoute}
             -
-              type: interface
-              name: nic2
-              use_dhcp: false
-              addresses:
+              type: ovs_bridge
+              name: {get_input: bridge_name}
+              members:
                 -
-                  ip_netmask: {get_param: StorageIpSubnet}
+                  type: ovs_bond
+                  name: bond1
+                  ovs_options: {get_param: BondInterfaceOvsOptions}
+                  members:
+                    -
+                      type: interface
+                      name: nic2
+                      primary: true
+                    -
+                      type: interface
+                      name: nic3
+                -
+                  type: vlan
+                  device: bond1
+                  vlan_id: {get_param: InternalApiNetworkVlanID}
+                  addresses:
+                    -
+                      ip_netmask: {get_param: InternalApiIpSubnet}
+                -
+                  type: vlan
+                  device: bond1
+                  vlan_id: {get_param: StorageNetworkVlanID}
+                  addresses:
+                    -
+                      ip_netmask: {get_param: StorageIpSubnet}
+                -
+                  type: vlan
+                  device: bond1
+                  vlan_id: {get_param: TenantNetworkVlanID}
+                  addresses:
+                    -
+                      ip_netmask: {get_param: TenantIpSubnet}
+                # Uncomment when including environments/network-management.yaml
+                # If setting default route on the Management interface, comment
+                # out the default route on the Control Plane.
+                #-
+                #  type: vlan
+                #  device: bond1
+                #  vlan_id: {get_param: ManagementNetworkVlanID}
+                #  addresses:
+                #    -
+                #      ip_netmask: {get_param: ManagementIpSubnet}
+                #  routes:
+                #    -
+                #      default: true
+                #      next_hop: {get_param: ManagementInterfaceDefaultRoute}
             -
-              type: interface
-              name: nic3
-              use_dhcp: false
-              addresses:
+              type: ovs_user_bridge
+              name: br-link
+              members:
                 -
-                  ip_netmask: {get_param: StorageMgmtIpSubnet}
-            -
-              type: interface
-              name: nic4
-              use_dhcp: false
-              addresses:
-                -
-                  ip_netmask: {get_param: InternalApiIpSubnet}
-            # Uncomment when including environments/network-management.yaml
-            # If setting default route on the Management interface, comment
-            # out the default route on the Control Plane.
-            #-
-            #  type: interface
-            #  name: nic7
-            #  use_dhcp: false
-            #  addresses:
-            #    -
-            #      ip_netmask: {get_param: ManagementIpSubnet}
-            #  routes:
-            #    -
-            #      default: true
-            #      next_hop: {get_param: ManagementInterfaceDefaultRoute}
+                  type: ovs_dpdk_bond
+                  name: dpdkbond0
+                  members:
+                    -
+                      type: ovs_dpdk_port
+                      name: dpdk0
+                      members:
+                        -
+                          type: interface
+                          name: nic4
+                    -
+                      type: ovs_dpdk_port
+                      name: dpdk1
+                      members:
+                        -
+                          type: interface
+                          name: nic5
 
 outputs:
   OS::stack_id:

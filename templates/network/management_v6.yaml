@@ -7,7 +7,7 @@ description: >
 parameters:
   # the defaults here work for static IP assignment (IPAM) only
   ManagementNetCidr:
-    default: '10.0.1.0/24'
+    default: 'fd00:fd00:fd00:6000::/64'
     description: Cidr for the management network.
     type: string
   ManagementNetValueSpecs:
@@ -16,11 +16,7 @@ parameters:
     type: json
   ManagementNetAdminStateUp:
     default: false
-    description: The admin state of the network.
-    type: boolean
-  ManagementNetEnableDHCP:
-    default: false
-    description: Whether to enable DHCP on the associated subnet.
+    description: This admin state of of the network.
     type: boolean
   ManagementNetShared:
     default: false
@@ -35,12 +31,16 @@ parameters:
     description: The name of the management subnet in Neutron.
     type: string
   ManagementAllocationPools:
-    default: [{'start': '10.0.1.4', 'end': '10.0.1.250'}]
+    default: [{'start': 'fd00:fd00:fd00:6000::10', 'end': 'fd00:fd00:fd00:6000:ffff:ffff:ffff:fffe'}]
     description: Ip allocation pool range for the management network.
     type: json
-  ManagementInterfaceDefaultRoute:
-    default: null
-    description: The default route of the management network.
+  IPv6AddressMode:
+    default: dhcpv6-stateful
+    description: Neutron subnet IPv6 address mode
+    type: string
+  IPv6RAMode:
+    default: dhcpv6-stateful
+    description: Neutron subnet IPv6 router advertisement mode
     type: string
 
 resources:
@@ -55,15 +55,15 @@ resources:
   ManagementSubnet:
     type: OS::Neutron::Subnet
     properties:
+      ip_version: 6
+      ipv6_address_mode: {get_param: IPv6AddressMode}
+      ipv6_ra_mode: {get_param: IPv6RAMode}
       cidr: {get_param: ManagementNetCidr}
-      enable_dhcp: {get_param: ManagementNetEnableDHCP}
       name: {get_param: ManagementSubnetName}
       network: {get_resource: ManagementNetwork}
       allocation_pools: {get_param: ManagementAllocationPools}
-      gateway_ip: {get_param: ManagementInterfaceDefaultRoute}
 
 outputs:
   OS::stack_id:
     description: Neutron management network
     value: {get_resource: ManagementNetwork}
-
