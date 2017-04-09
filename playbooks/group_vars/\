@@ -1,0 +1,7 @@
+project_name: vnf-charlie
+project_description: Test project vnf-charlie
+member_group: vnf-charlie_members
+networks:
+  - {network_name=net1, network_vlan=301, network_bridge=datacentre}
+  - {network_name=net2, network_vlan=302, network_bridge=datacentre}
+

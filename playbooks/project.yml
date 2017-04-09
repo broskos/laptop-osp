@@ -1,0 +1,44 @@
+- hosts: all
+  gather_facts: no
+  tasks:
+  - os_project:
+      state: present
+      name: "{{ project_name }}"
+      description: "{{ project_description }} Datacenter: {{ datacenter_name }} sku: {{ sku_name }}"
+      domain: default
+      enabled: True
+    delegate_to: localhost
+
+  - os_group:
+      state: present
+      name: "{{ member_group }}"
+      description: "member group for project {{ project_name }}"
+    delegate_to: localhost
+
+  - os_user_role:
+      group: "{{ member_group }}"
+      project: "{{ project_name }}"
+      role: _member_
+    delegate_to: localhost
+
+  - os_network:
+      state: present
+      external: "{{ item.external }}"
+      project: "{{ project_name }}"
+      provider_network_type: vlan
+      name: "{{ project_name }}-{{ item.network_name }}"
+      provider_segmentation_id: "{{ item.network_vlan }}"
+      provider_physical_network: "{{ item.network_bridge }}"
+    delegate_to: localhost
+    with_items: "{{ networks }}"
+
+  - os_subnet:
+      state: present
+      network_name: "{{ project_name }}-{{ item.network_name }}"
+      name: "{{ project_name }}-{{ item.network_name }}-subnet"
+      cidr: "{{ item.cidr }}"
+      gateway_ip: "{{ item.gateway_ip }}"
+      enable_dhcp: "{{ item.enable_dhcp }}"
+      dns_nameservers: "{{ dns_nameservers }}"
+    delegate_to: localhost
+    with_items: "{{ networks }}"

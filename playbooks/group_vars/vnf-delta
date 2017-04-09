@@ -1,0 +1,7 @@
+project_name: vnf-delta
+project_description: Test project vnf-delta
+member_group: vnf-delta_members
+networks:
+  - {network_name: net1, network_vlan: 401, network_bridge: datacentre, cidr: 10.10.41.0/24, gateway_ip: 10.10.41.10, external: true, enable_dhcp: false }
+  - {network_name: net2, network_vlan: 402, network_bridge: datacentre, cidr: 10.10.42.0/24, gateway_ip: 10.10.42.10, external: true, enable_dhcp: false }
+
