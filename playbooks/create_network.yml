@@ -1,5 +1,5 @@
 - os_network:
-    auth: "{{ auth_info }}"
+    cloud: "{{ sku_name }}"
     state: present
     external: "{{ item.external }}"
     project: "{{ vnf_info.value.project_name }}"

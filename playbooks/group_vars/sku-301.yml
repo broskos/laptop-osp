@@ -1,11 +1,4 @@
 sku_name: sku-301
-auth_info:
-  auth_url: http://192.168.122.156:5000/v3
-  username: admin
-  password: 32272b409f6b4d73
-  project_name: admin
-  user_domain_name: default
-  project_domain_name: default
 
 vnf:
   vnf-vmme1:

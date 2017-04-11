@@ -1,13 +1,10 @@
 - hosts: datacenters
   gather_facts: no
   environment:
-    OS_IDENTITY_API_VERSION: 3
   tasks:
-  - debug:
-      msg: "{{ auth_info }}"
 
   - os_project:
-      auth: "{{ auth_info }}"
+      cloud: "{{ sku_name }}"
       state: present
       name: "{{ item.value.project_name }}"
       description: "{{ item.value.project_description }} Datacenter: {{ datacenter_name }} sku: {{ sku_name }}"
@@ -17,7 +14,7 @@
     with_dict: "{{ vnf }}"
 
   - os_group:
-      auth: "{{ auth_info }}"
+      cloud: "{{ sku_name }}"
       state: present
       name: "{{ item.value.member_group }}"
       description: "member group for project {{ item.value.project_name }}"
@@ -25,7 +22,7 @@
     with_dict: "{{ vnf }}"
 
   - os_user_role:
-      auth: "{{ auth_info }}"
+      cloud: "{{ sku_name }}"
       group: "{{ item.value.member_group }}"
       project: "{{ item.value.project_name }}"
       role: _member_
