@@ -3,6 +3,7 @@ clouds:
     auth:
       auth_url: http://192.168.122.213:5000/v3
       username: broskos
+      password: redhat
       project_name: admin
       user_domain_name: default
       project_domain_name: default
@@ -11,6 +12,7 @@ clouds:
     auth:
       auth_url: http://192.168.122.32:5000/v3
       username: broskos
+      password: redhat
       project_name: admin
       user_domain_name: default
       project_domain_name: default
@@ -19,6 +21,7 @@ clouds:
     auth:
       auth_url: http://192.168.122.156:5000/v3
       username: broskos
+      password: redhat
       project_name: admin
       user_domain_name: default
       project_domain_name: default
