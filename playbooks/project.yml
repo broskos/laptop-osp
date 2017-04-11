@@ -1,44 +1,45 @@
-- hosts: all
+- hosts: datacenters
   gather_facts: no
+  environment:
+    OS_IDENTITY_API_VERSION: 3
   tasks:
+  - debug:
+      msg: "{{ auth_info }}"
+
   - os_project:
+      auth: "{{ auth_info }}"
       state: present
-      name: "{{ project_name }}"
-      description: "{{ project_description }} Datacenter: {{ datacenter_name }} sku: {{ sku_name }}"
-      domain: default
+      name: "{{ item.value.project_name }}"
+      description: "{{ item.value.project_description }} Datacenter: {{ datacenter_name }} sku: {{ sku_name }}"
+      domain_id: default
       enabled: True
     delegate_to: localhost
+    with_dict: "{{ vnf }}"
 
   - os_group:
+      auth: "{{ auth_info }}"
       state: present
-      name: "{{ member_group }}"
-      description: "member group for project {{ project_name }}"
+      name: "{{ item.value.member_group }}"
+      description: "member group for project {{ item.value.project_name }}"
     delegate_to: localhost
+    with_dict: "{{ vnf }}"
 
   - os_user_role:
-      group: "{{ member_group }}"
-      project: "{{ project_name }}"
+      auth: "{{ auth_info }}"
+      group: "{{ item.value.member_group }}"
+      project: "{{ item.value.project_name }}"
       role: _member_
     delegate_to: localhost
+    with_dict: "{{ vnf }}"
 
-  - os_network:
-      state: present
-      external: "{{ item.external }}"
-      project: "{{ project_name }}"
-      provider_network_type: vlan
-      name: "{{ project_name }}-{{ item.network_name }}"
-      provider_segmentation_id: "{{ item.network_vlan }}"
-      provider_physical_network: "{{ item.network_bridge }}"
+  - include: create_network.yml
     delegate_to: localhost
-    with_items: "{{ networks }}"
+    with_dict: "{{ vnf }}"
+    loop_control:
+      loop_var: vnf_info
 
-  - os_subnet:
-      state: present
-      network_name: "{{ project_name }}-{{ item.network_name }}"
-      name: "{{ project_name }}-{{ item.network_name }}-subnet"
-      cidr: "{{ item.cidr }}"
-      gateway_ip: "{{ item.gateway_ip }}"
-      enable_dhcp: "{{ item.enable_dhcp }}"
-      dns_nameservers: "{{ dns_nameservers }}"
+  - include: create_subnet.yml
     delegate_to: localhost
-    with_items: "{{ networks }}"
+    with_dict: "{{ vnf }}"
+    loop_control:
+      loop_var: vnf_info

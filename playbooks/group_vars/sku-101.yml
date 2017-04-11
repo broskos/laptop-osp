@@ -1,0 +1,38 @@
+sku_name: sku-101
+auth_info:
+  auth_url: http://192.168.122.213:5000/v3
+  username: admin
+  password: 548cd100fc9f43d3
+  project_name: admin
+  user_domain_name: default
+  project_domain_name: default
+
+vnf:
+  vnf-alpha:
+    project_name: vnf-alpha
+    project_description: Test project vnf-alpha
+    member_group: vnf-alpha_members
+    networks:
+      - { network_name: net1, network_vlan: 111, network_bridge: datacentre, cidr: 10.1.111.0/24, gateway_ip: 10.1.111.10, external: true, enable_dhcp: false }
+      - { network_name: net2, network_vlan: 112, network_bridge: datacentre, cidr: 10.1.112.0/24, gateway_ip: 10.1.112.10, external: true, enable_dhcp: false }
+  vnf-bravo:
+    project_name: vnf-bravo
+    project_description: Test project vnf-bravo
+    member_group: vnf-bravo_members
+    networks:
+      - {network_name: net1, network_vlan: 113, network_bridge: datacentre, cidr: 10.1.113.0/24, gateway_ip: 10.1.113.10, external: true, enable_dhcp: false }
+      - {network_name: net2, network_vlan: 114, network_bridge: datacentre, cidr: 10.1.114.0/24, gateway_ip: 10.1.114.10, external: true, enable_dhcp: false }
+  vnf-charlie:
+    project_name: vnf-charlie
+    project_description: Test project vnf-charlie
+    member_group: vnf-charlie_members
+    networks:
+      - {network_name: net1, network_vlan: 115, network_bridge: datacentre, cidr: 10.1.115.0/24, gateway_ip: 10.1.115.10, external: true, enable_dhcp: false }
+      - {network_name: net2, network_vlan: 116, network_bridge: datacentre, cidr: 10.1.116.0/24, gateway_ip: 10.1.116.10, external: true, enable_dhcp: false }
+  vnf-delta:
+    project_name: vnf-delta
+    project_description: Test project vnf-delta
+    member_group: vnf-delta_members
+    networks:
+      - {network_name: net1, network_vlan: 117, network_bridge: datacentre, cidr: 10.1.117.0/24, gateway_ip: 10.1.117.10, external: true, enable_dhcp: false }
+      - {network_name: net2, network_vlan: 118, network_bridge: datacentre, cidr: 10.1.118.0/24, gateway_ip: 10.1.118.10, external: true, enable_dhcp: false }

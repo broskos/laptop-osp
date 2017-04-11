@@ -1,0 +1,11 @@
+- os_subnet:
+    auth: "{{ auth_info }}"
+    state: present
+    network_name: "{{ vnf_info.value.project_name }}-{{ item.network_name }}"
+    name: "{{ vnf_info.value.project_name }}-{{ item.network_name }}-subnet"
+    cidr: "{{ item.cidr }}"
+    gateway_ip: "{{ item.gateway_ip }}"
+    enable_dhcp: "{{ item.enable_dhcp }}"
+    dns_nameservers: "{{ dns_nameservers }}"
+  with_items:
+    - "{{ vnf_info.value.networks }}"

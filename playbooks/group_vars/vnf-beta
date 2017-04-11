@@ -1,7 +1,0 @@
-project_name: vnf-beta
-project_description: Test project vnf-beta
-member_group: vnf-beta_members
-networks:
-  - {network_name: net1, network_vlan: 201, network_bridge: datacentre, cidr: 10.10.21.0/24, gateway_ip: 10.10.21.10, external: true, enable_dhcp: false }
-  - {network_name: net2, network_vlan: 202, network_bridge: datacentre, cidr: 10.10.22.0/24, gateway_ip: 10.10.22.10, external: true, enable_dhcp: false }
-

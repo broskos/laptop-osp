@@ -1,0 +1,10 @@
+- os_network:
+    auth: "{{ auth_info }}"
+    state: present
+    external: "{{ item.external }}"
+    project: "{{ vnf_info.value.project_name }}"
+    provider_network_type: vlan
+    name: "{{ vnf_info.value.project_name }}-{{ item.network_name }}"
+    provider_segmentation_id: "{{ item.network_vlan }}"
+    provider_physical_network: "{{ item.network_bridge }}"
+  with_items: "{{ vnf_info.value.networks }}"

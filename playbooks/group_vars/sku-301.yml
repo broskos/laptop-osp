@@ -1,0 +1,17 @@
+sku_name: sku-301
+auth_info:
+  auth_url: http://192.168.122.156:5000/v3
+  username: admin
+  password: 32272b409f6b4d73
+  project_name: admin
+  user_domain_name: default
+  project_domain_name: default
+
+vnf:
+  vnf-vmme1:
+    project_name: vnf-vmme1
+    project_description: Test project vnf-vmme1
+    member_group: vnf-vmme1_members
+    networks:
+      - { network_name: net1, network_vlan: 111, network_bridge: datacentre, cidr: 10.3.111.0/24, gateway_ip: 10.3.111.10, external: true, enable_dhcp: false }
+      - { network_name: net2, network_vlan: 112, network_bridge: datacentre, cidr: 10.3.112.0/24, gateway_ip: 10.3.112.10, external: true, enable_dhcp: false }
