@@ -8,6 +8,10 @@
       dest: ./clouds.yml
     delegate_to: localhost
 
+  - debug:
+      var: hostvars[inventory_hostname]
+
+
 - hosts: datacenters
   gather_facts: no
   environment:
