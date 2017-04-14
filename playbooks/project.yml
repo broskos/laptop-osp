@@ -2,9 +2,6 @@
   gather_facts: yes
   tasks:
 
-  - debug:
-      var: hostvars[inventory_hostname]
-
   - name: template clouds.yml
     template:
       src: clouds.j2
