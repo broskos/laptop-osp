@@ -1,3 +1,13 @@
+- hosts: localhost
+  gather_facts: no
+  tasks:
+
+  - name: template clouds.yml
+    template:
+      src: clouds.j2
+      dest: ./clouds.yml
+    delegate_to: localhost
+
 - hosts: datacenters
   gather_facts: no
   environment:

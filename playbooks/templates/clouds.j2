@@ -2,8 +2,8 @@ clouds:
   sku-101:
     auth:
       auth_url: http://192.168.122.213:5000/v3
-      username: "broskos"
-      password: "redhat"
+      username: "{{ ansible_username }}"
+      password: "{{ ansible_password }}"
       project_name: admin
       user_domain_name: default
       project_domain_name: default

@@ -1,4 +1,4 @@
 datacenter_name: datacenter-b
 dns_nameservers:
   - 8.8.8.7
-  - 8.8.8.8
+  - 8.8.8.9
