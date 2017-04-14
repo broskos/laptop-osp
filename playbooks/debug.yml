@@ -5,20 +5,21 @@
     },
     "hostvars[inventory_hostname]": {
         "module_setup": true,
-        "tower_job_launch_type": "relaunch",
+        "tower_job_launch_type": "manual",
         "ansible_distribution_version": "7.3",
         "ansible_env": {
             "_": "/usr/bin/python2",
             "ANSIBLE_RETRY_FILES_ENABLED": "False",
+            "OS_CLIENT_CONFIG_FILE": "/tmp/ansible_tower_bUAeOF/tmpMDYuTN",
             "DJANGO_LIVE_TEST_SERVER_ADDRESS": "localhost:9013-9199",
-            "PROJECT_REVISION": "ac6c5918d52a42fb28d345a626a38825c42f5838",
+            "PROJECT_REVISION": "6a4eac619e29dae6fc4ee14db3c83405172fbe4a",
             "CALLBACK_QUEUE": "callback_tasks",
             "_MP_FORK_LOGFILE_": "",
             "CELERY_LOG_REDIRECT": "1",
             "USER": "awx",
             "PATH": "/var/lib/awx/venv/ansible/bin:/var/lib/awx/venv/tower/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin",
             "HOME": "/var/lib/awx",
-            "REST_API_TOKEN": "61-d62b3413e25e77e96b7baffe47f713d1",
+            "REST_API_TOKEN": "84-22ed6534597d97a2f5cbd55d40accbe3",
             "ANSIBLE_CALLBACK_PLUGINS": "/var/lib/awx/venv/tower/lib/python2.7/site-packages/awx/plugins/callback",
             "LANG": "en_US.UTF-8",
             "VIRTUAL_ENV": "/var/lib/awx/venv/ansible",
@@ -33,7 +34,7 @@
             "DJANGO_PROJECT_DIR": "/var/lib/awx/venv/tower/lib/python2.7/site-packages",
             "ANSIBLE_HOST_KEY_CHECKING": "False",
             "CACHE": "localhost:11211",
-            "JOB_ID": "61",
+            "JOB_ID": "84",
             "ANSIBLE_STDOUT_CALLBACK": "tower_display",
             "PYTHONPATH": "/var/lib/awx/venv/tower/lib/python2.7/site-packages/awx/lib:/var/lib/awx/venv/ansible/lib/python2.7/site-packages:",
             "ANSIBLE_USE_VENV": "True",
@@ -47,7 +48,7 @@
             "CELERY_LOG_LEVEL": "10",
             "CALLBACK_CONNECTION": "amqp://tower:password@localhost:5672/tower",
             "INVENTORY_ID": "2",
-            "ANSIBLE_SSH_CONTROL_PATH": "/tmp/ansible_tower_25EVCH/cp/%%h%%p%%r",
+            "ANSIBLE_SSH_CONTROL_PATH": "/tmp/ansible_tower_bUAeOF/cp/%%h%%p%%r",
             "PWD": "/var/lib/awx/projects/_6__create_infra/playbooks",
             "DJANGO_SETTINGS_MODULE": "awx.settings.production",
             "ANSIBLE_VENV_PATH": "/var/lib/awx/venv/ansible",
@@ -105,7 +106,7 @@
         "ansible_all_ipv6_addresses": [
             "fe80::5054:ff:fe11:2a5d"
         ],
-        "ansible_uptime_seconds": 14274,
+        "ansible_uptime_seconds": 15578,
         "tower_job_template_id": 13,
         "ansible_kernel": "3.10.0-514.10.2.el7.x86_64",
         "tower_user_name": "admin",
@@ -132,6 +133,7 @@
         "ansible_user_shell": "/bin/bash",
         "ansible_product_serial": "NA",
         "ansible_form_factor": "Other",
+        "ansible_username": "broskos",
         "ansible_fips": false,
         "ansible_user_id": "awx",
         "inventory_hostname": "localhost",
@@ -142,7 +144,7 @@
             "GenuineIntel",
             "Intel Core Processor (Haswell, no TSX)"
         ],
-        "tower_job_id": 61,
+        "tower_job_id": 84,
         "ansible_ssh_host_key_ecdsa_public": "AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMBF7fYPx57ydnKGavY1uH7WSdozoJ2lU5celB3G4DWtirROFNG/T/Do81A7C+sRM53LyArgTn5PLq9X5UnmbU8=",
         "ansible_mounts": [
             {
@@ -158,7 +160,7 @@
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
                 "mount": "/",
-                "size_available": 97454010368,
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,relatime,data=ordered"
@@ -167,7 +169,7 @@
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
                 "mount": "/etc/tower",
-                "size_available": 97454010368,
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,nodev,relatime,data=ordered,bind"
@@ -176,7 +178,7 @@
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
                 "mount": "/tmp",
-                "size_available": 97454010368,
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,nodev,relatime,data=ordered,bind"
@@ -185,7 +187,7 @@
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
                 "mount": "/var/lib/awx",
-                "size_available": 97454010368,
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,nodev,relatime,data=ordered,bind"
@@ -194,7 +196,7 @@
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
                 "mount": "/var/lib/awx/job_status",
-                "size_available": 97454010368,
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,nodev,relatime,data=ordered,bind"
@@ -203,7 +205,7 @@
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
                 "mount": "/var/lib/awx/projects",
-                "size_available": 97454010368,
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,nodev,relatime,data=ordered,bind"
@@ -212,7 +214,7 @@
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
                 "mount": "/var/log",
-                "size_available": 97454010368,
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,nodev,relatime,data=ordered,bind"
@@ -220,8 +222,8 @@
             {
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
-                "mount": "/tmp/ansible_tower_25EVCH",
-                "size_available": 97454010368,
+                "mount": "/tmp/ansible_tower_bUAeOF",
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,nodev,relatime,data=ordered,bind"
@@ -230,7 +232,7 @@
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
                 "mount": "/var/lib/awx/projects/_6__create_infra",
-                "size_available": 97454010368,
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,nodev,relatime,data=ordered,bind"
@@ -239,7 +241,7 @@
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
                 "mount": "/var/lib/awx/venv/ansible",
-                "size_available": 97454010368,
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,nodev,relatime,data=ordered,bind"
@@ -248,7 +250,7 @@
                 "uuid": "072101fb-c027-46c7-ba75-6fdc81899b72",
                 "size_total": 105565708288,
                 "mount": "/var/lib/awx/venv/tower",
-                "size_available": 97454010368,
+                "size_available": 97452105728,
                 "fstype": "ext4",
                 "device": "/dev/vda1",
                 "options": "rw,seclabel,nosuid,nodev,relatime,data=ordered,bind"
@@ -256,6 +258,26 @@
         ],
         "ansible_system_vendor": "QEMU",
         "ansible_swaptotal_mb": 0,
+        "ansible_date_time": {
+            "weekday_number": "5",
+            "iso8601_basic_short": "20170414T100601",
+            "tz": "EDT",
+            "weeknumber": "15",
+            "hour": "10",
+            "time": "10:06:01",
+            "tz_offset": "-0400",
+            "month": "04",
+            "epoch": "1492178761",
+            "iso8601_micro": "2017-04-14T14:06:01.084852Z",
+            "weekday": "Friday",
+            "iso8601_basic": "20170414T100601084779",
+            "year": "2017",
+            "date": "2017-04-14",
+            "iso8601": "2017-04-14T14:06:01Z",
+            "day": "14",
+            "minute": "06",
+            "second": "01"
+        },
         "ansible_check_mode": false,
         "ansible_distribution_major_version": "7",
         "groups": {
@@ -291,7 +313,7 @@
         },
         "ansible_machine": "x86_64",
         "ansible_ssh_host_key_rsa_public": "AAAAB3NzaC1yc2EAAAADAQABAAABAQCu8rNUxeXRvw5h1ROFzW4gC7LE6PisCnZ4ps/Y3LpVRFBP59XOb9uQy3ai0ikWlIJysM7UyaUWNilw73O7NSDZbaE1HD37jYGea/xhpTv4WZoMRLcXypE5AFJjcLLHvh8Yd+ORXZxNNfaD2TZfSne1jYRxCpd5l0oCFHnx3dE07cfBsgfK+hpBqaR8SxBI1YmM/DchMbfVeKaGFx5oiGHQtPe2S7byoeaQ0wufpHn8kP72gnD/bBYzIMwkW3Qf/HlTaKD0CLCvMI075UaRekNlUj3Dnu6oySxMF/w8bUDP+7p3M8bnC4KVFUKyJBsNXKhoLk68+fRTcLR6mazW3+ot",
-        "omit": "__omit_place_holder__a00d0e1c7bc54861942a9a30ac41c1f37f9ec2b3",
+        "omit": "__omit_place_holder__45094587a1388d289fb16d478a30643255243854",
         "ansible_user_gecos": "",
         "ansible_processor_threads_per_core": 1,
         "ansible_eth0": {
@@ -375,8 +397,8 @@
         "ansible_memory_mb": {
             "real": {
                 "total": 3790,
-                "free": 1924,
-                "used": 1866
+                "free": 1659,
+                "used": 2131
             },
             "swap": {
                 "cached": 0,
@@ -385,8 +407,8 @@
                 "free": 0
             },
             "nocache": {
-                "used": 1545,
-                "free": 2245
+                "used": 1783,
+                "free": 2007
             }
         },
         "ansible_user_dir": "/var/lib/awx",
@@ -471,10 +493,9 @@
             "network",
             "virtual"
         ],
-        "ansible_memfree_mb": 1924,
+        "ansible_memfree_mb": 1659,
         "ansible_processor_count": 2,
         "ansible_hostname": "tower-aio",
-        "ansible_virtualization_type": "kvm",
         "ansible_interfaces": [
             "lo",
             "eth0"
@@ -486,26 +507,7 @@
         "ansible_nodename": "tower-aio",
         "ansible_connection": "local",
         "ansible_domain": "",
-        "ansible_date_time": {
-            "weekday_number": "5",
-            "iso8601_basic_short": "20170414T094417",
-            "tz": "EDT",
-            "weeknumber": "15",
-            "hour": "09",
-            "time": "09:44:17",
-            "tz_offset": "-0400",
-            "month": "04",
-            "epoch": "1492177457",
-            "iso8601_micro": "2017-04-14T13:44:17.326048Z",
-            "weekday": "Friday",
-            "iso8601_basic": "20170414T094417325969",
-            "year": "2017",
-            "date": "2017-04-14",
-            "iso8601": "2017-04-14T13:44:17Z",
-            "day": "14",
-            "minute": "44",
-            "second": "17"
-        },
+        "ansible_virtualization_type": "kvm",
         "ansible_ssh_host_key_ed25519_public": "AAAAC3NzaC1lZDI1NTE5AAAAII2hlVe6lqTDPFcw/08DIUcti+aqUmhTHJMFx1hcgI8D",
         "ansible_processor_cores": 1,
         "ansible_bios_version": "1.9.3-1.fc25",
@@ -543,12 +545,13 @@
         "ansible_user_uid": 993,
         "ansible_bios_date": "04/01/2014",
         "inventory_hostname_short": "localhost",
-        "tower_project_revision": "ac6c5918d52a42fb28d345a626a38825c42f5838",
+        "tower_project_revision": "6a4eac619e29dae6fc4ee14db3c83405172fbe4a",
         "ansible_python_interpreter": "/usr/bin/python2",
         "inventory_dir": "/var/lib/awx/venv/tower/lib/python2.7/site-packages/awx/plugins/inventory",
         "ansible_system_capabilities": [
             ""
-        ]
+        ],
+        "ansible_password": "redhat"
     },
     "changed": false,
     "_ansible_verbose_always": true,
