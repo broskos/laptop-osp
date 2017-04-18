@@ -1,4 +1,4 @@
-- hosts: datacenters
+- hosts: localhost
   gather_facts: yes
   vars:
     cloud_username: "{{ ansible_user_id }}"
@@ -10,6 +10,11 @@
       src: clouds.j2
       dest: ./clouds.yml
     delegate_to: localhost
+
+- hosts: datacenters
+  gather_facts: no
+  environment:
+  tasks:
 
   - os_project:
       cloud: "{{ sku_name }}"
