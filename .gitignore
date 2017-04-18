@@ -1,2 +1,3 @@
 .idea
 playbooks/clouds.yml
+playbooks/*.retry
