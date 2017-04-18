@@ -1,3 +1,4 @@
+localhost ansible_connection=ssh
 
 [sku-101]
 packstack1

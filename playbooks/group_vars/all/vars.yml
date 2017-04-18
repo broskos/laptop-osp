@@ -1,2 +1,0 @@
-cloud_username: broskos
-cloud_password: "{{ vault_cloud_password }}"
