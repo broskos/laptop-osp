@@ -43,63 +43,63 @@ for i in controller compute ceph; do \
 
 cd ~
 
-# Create instack file
-jq . << EOF > ~/instackenv.json
-{
-  "ssh-user": "stack",
-  "ssh-key": "$(cat ~/.ssh/id_rsa)",
-  "power_manager": "nova.virt.baremetal.virtual_power_driver.VirtualPowerManager",
-  "host-ip": "192.168.100.1",
-  "arch": "x86_64",
-  "nodes": [
-    {
-      "name": "overcloud-controller",
-      "pm_addr": "192.168.100.1",
-      "pm_password": "$(cat ~/.ssh/id_rsa)",
-      "pm_type": "pxe_ssh",
-      "mac": [
-        "$(sed -n 1p /tmp/nodes.txt)"
-      ],
-      "cpu": "4",
-      "memory": "8192",
-      "disk": "60",
-      "arch": "x86_64",
-      "pm_user": "stack"
-    },
-    {
-      "name": "overcloud-compute",
-      "pm_addr": "192.168.100.1",
-      "pm_password": "$(cat ~/.ssh/id_rsa)",
-      "pm_type": "pxe_ssh",
-      "mac": [
-        "$(sed -n 2p /tmp/nodes.txt)"
-      ],
-      "cpu": "4",
-      "memory": "8192",
-      "disk": "60",
-      "arch": "x86_64",
-      "pm_user": "stack"
-    },
-    {
-      "name": "overcloud-ceph",
-      "pm_addr": "192.168.100.1",
-      "pm_password": "$(cat ~/.ssh/id_rsa)",
-      "pm_type": "pxe_ssh",
-      "mac": [
-        "$(sed -n 3p /tmp/nodes.txt)"
-      ],
-      "cpu": "4",
-      "memory": "8192",
-      "disk": "60",
-      "arch": "x86_64",
-      "pm_user": "stack"
-    }
-  ]
-}
-EOF
+## Create instack file
+#jq . << EOF > ~/instackenv.json
+#{
+#  "ssh-user": "stack",
+#  "ssh-key": "$(cat ~/.ssh/id_rsa)",
+#  "power_manager": "nova.virt.baremetal.virtual_power_driver.VirtualPowerManager",
+#  "host-ip": "192.168.100.1",
+#  "arch": "x86_64",
+#  "nodes": [
+#    {
+#      "name": "overcloud-controller",
+#      "pm_addr": "192.168.100.1",
+#      "pm_password": "$(cat ~/.ssh/id_rsa)",
+#      "pm_type": "pxe_ssh",
+#      "mac": [
+#        "$(sed -n 1p /tmp/nodes.txt)"
+#      ],
+#      "cpu": "4",
+#      "memory": "8192",
+#      "disk": "60",
+#      "arch": "x86_64",
+#      "pm_user": "stack"
+#    },
+#    {
+#      "name": "overcloud-compute",
+#      "pm_addr": "192.168.100.1",
+#      "pm_password": "$(cat ~/.ssh/id_rsa)",
+#      "pm_type": "pxe_ssh",
+#      "mac": [
+#        "$(sed -n 2p /tmp/nodes.txt)"
+#      ],
+#      "cpu": "4",
+#      "memory": "8192",
+#      "disk": "60",
+#      "arch": "x86_64",
+#      "pm_user": "stack"
+#    },
+#    {
+#      "name": "overcloud-ceph",
+#      "pm_addr": "192.168.100.1",
+#      "pm_password": "$(cat ~/.ssh/id_rsa)",
+#      "pm_type": "pxe_ssh",
+#      "mac": [
+#        "$(sed -n 3p /tmp/nodes.txt)"
+#      ],
+#      "cpu": "4",
+#      "memory": "8192",
+#      "disk": "60",
+#      "arch": "x86_64",
+#      "pm_user": "stack"
+#    }
+#  ]
+#}
+#EOF
 
 # import hardware, configure boot and introspect
-openstack baremetal import --json ~/instackenv.json
+openstack baremetal import --json ~/laptop-osp/stack-home/instackenv.json
 openstack baremetal configure boot
 openstack baremetal introspection bulk start
 
