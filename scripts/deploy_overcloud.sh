@@ -17,8 +17,10 @@ openstack overcloud deploy --templates \
     --stack $stack_name \
     --ntp-server $ntp_server \
     --control-flavor control --compute-flavor compute --ceph-storage-flavor ceph-storage \
-    --control-scale 1 --compute-scale 1 --ceph-storage-scale 1 \
+    --control-scale 1 --compute-scale 3 --ceph-storage-scale 1 \
     --neutron-tunnel-types vxlan --neutron-network-type vxlan \
-    -e ~/laptop-osp/templates/environments/network-isolation.yaml \
-    -e ~/laptop-osp/templates/environments/network-environment.yaml \
-    -e /usr/share/openstack-tripleo-heat-templates/environments/storage-environment.yaml
+    -e /usr/share/openstack-tripleo-heat-templates/environments/storage-environment.yaml \
+    -e ~/laptop-osp/templates/environments/network-environment.yaml
+#    -e ~/laptop-osp/templates/environments/network-isolation.yaml \
+#    -e ~/laptop-osp/templates/environments/network-environment.yaml \
+#    -e /usr/share/openstack-tripleo-heat-templates/environments/storage-environment.yaml

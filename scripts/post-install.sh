@@ -1,99 +1,52 @@
 #!/usr/bin/env bash
 
-source ~/laptop-osp/scripts/0-site-settings.sh
-export webserver_url="$webserver_url/images"
+if [ ! -f /home/stack/overcloudrc ] ; then echo "No overcloudrc!" ; exit 1 ; fi
 
-## update IDs in assignment table to be the ldap usernames, easiest to just hop on a controller and do it as root.
-#source ~/stackrc
-#controller_ip=$(nova list  | grep controller-0|awk '{print $12}' |sed 's/ctlplane=//g')
-#ssh -T -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -l heat-admin $controller_ip << EOF_ALL
-#sudo mysql keystone << EOF
-#update assignment set actor_id = 'cinder' where actor_id = ( select id from user where name = 'cinder');
-#update assignment set actor_id = 'neutron' where actor_id = ( select id from user where name = 'neutron');
-#update assignment set actor_id = 'glance' where actor_id = ( select id from user where name = 'glance');
-#update assignment set actor_id = 'nova' where actor_id = ( select id from user where name = 'nova');
-#update assignment set actor_id = 'swift' where actor_id = ( select id from user where name = 'swift');
-#update assignment set actor_id = 'admin' where actor_id = ( select id from user where name = 'admin');
-#update assignment set actor_id = 'ceilometer' where actor_id = ( select id from user where name = 'ceilometer');
-#update assignment set actor_id = 'heat' where actor_id = ( select id from user where name = 'heat');
-#update assignment set actor_id = 'ceilometer' where actor_id = ( select id from user where name = 'ceilometer');
-#update assignment set actor_id = 'cinderv2' where actor_id = ( select id from user where name = 'cinderv2');
-#EOF
-#
-#sleep 2
-#pcs resource restart openstack-keystone-clone --all
-#sleep 2
-#exit
-#EOF_ALL
+source /home/stack/overcloudrc
+
+##########################
+# Create Default Flavors #
+##########################
+nova flavor-create m1.tiny   auto   512   1  1
+nova flavor-create m1.small  auto  1024  20  1
+nova flavor-create m1.medium auto  4096  40  2
+nova flavor-create m1.large  auto  8192  80  4
+nova flavor-create m1.xlarge auto 16384 160  8
+
+###################################
+# create keypair from stack users public key
+###################################
+openstack keypair create --public-key ~/.ssh/id_rsa.pub undercloud
+
+###########################
+# Create Provider Networks #
+###########################
+#openstack network create --no-share --external --project admin --provider-network-type vlan --provider-segment 1708 --provider-physical-network datacentre Presentation
+#openstack subnet create --allocation-pool start=172.16.40.10,end=172.16.40.240  --ip-version 4 --subnet-range 172.16.40.0/24 --gateway 172.16.40.1 --network Presentation Presentation-Subnet
+#openstack network create --no-share --external --project admin --provider-network-type vlan --provider-segment 1709 --provider-physical-network datacentre Application
+#openstack subnet create --allocation-pool start=172.16.41.10,end=172.16.41.240  --ip-version 4 --subnet-range 172.16.41.0/24 --gateway 172.16.41.1 --network Application Application-Subnet
+#openstack network create --no-share --external --project admin --provider-network-type vlan --provider-segment 1710 --provider-physical-network datacentre Data
+#openstack subnet create --allocation-pool start=172.16.42.10,end=172.16.42.240  --ip-version 4 --subnet-range 172.16.42.0/24 --gateway 172.16.42.1 --network Data Data-Subnet
+
+#################################
+# Upload RHEL 7 & Cirros Image to Glance
+#################################
+openstack image create --public --file ~/images/rhel-server-7.4-x86_64-kvm.raw --disk-format raw --container bare rhel74
+
+openstack project create  demo2
+openstack user create --project demo2 --password redhat demo2user
+openstack network create --project demo2 --no-share demo2-net
+openstack subnet create --project demo2 --network demo2-net --dhcp --subnet-range 172.17.100.0/24  demo2-subnet
+openstack router create --project demo2 demo2-router
+
+openstack network create --project admin --no-share admin-net
+openstack subnet create --project admin --network admin-net --dhcp --subnet-range 172.17.101.0/24   admin-subnet
+#openstack router create --project admin admin-router
 
 
-# become admin user
-source $rcfile
+openstack flavor create --ram 1024 --vcpus 2 --disk 20 --property evacuable=true flavor_evacuable
+openstack flavor create --ram 1024 --vcpus 2 --disk 20 --property evacuable=false flavor_evacuable_false
 
-# Load images
-curl -O http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
-#curl -O $webserver_url/rhel-guest-image-7.1-20150224.0.x86_64.qcow2
-curl -O http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
-
-glance image-create --name cirros --disk-format qcow2 \
-    --container-format bare --is-public true \
-    --file cirros-0.3.4-x86_64-disk.img
-#glance image-create --name rhel7 --min-ram 2048 --disk-format qcow2 \
-#    --container-format bare --is-public true --file \
-#      rhel-guest-image-7.1-20150224.0.x86_64.qcow2
-glance image-create --name centos7 --min-ram 2048 --disk-format qcow2 \
-    --container-format bare --is-public true --file \
-      CentOS-7-x86_64-GenericCloud.qcow2
-
-sleep 5
-rm -f cirros-0.3.4-x86_64-disk.img rhel-guest-image-7.1-20150224.0.x86_64.qcow2 CentOS-7-x86_64-GenericCloud.qcow2c
-
-# Create Public network
-neutron net-create public --router:external=true \
-  --provider:physical_network=datacentre --provider:network_type=flat
-neutron subnet-create public 192.168.100.0/24 \
-    --name public_subnet --disable-dhcp --allocation-pool \
-    start=192.168.100.150,end=192.168.100.200 --gateway 192.168.100.1
-
-# create test tenant
-keystone tenant-create --name tenant1 --description "Demo Tenant1"
-
-# cant create user from keystone after ldap integration
-keystone user-create --name tenant1 --tenant tenant1 --pass p@ssw0rd
-
-cp $rcfile ~/tenant1rc
-sed -i 's/admin/tenant1/g' ~/tenant1rc
-sed -i 's/OS_PASSWORD.*/OS_PASSWORD=p@ssw0rd/g' ~/tenant1rc
-
-#change to tenant1 credentials
-source ~/tenant1rc
-
-#create tenant1 network
-neutron net-create tenant1-net
-neutron subnet-create tenant1-net 192.168.5.0/24 --name tenant1-subnet --dns-nameserver 192.168.2.2
-neutron router-create tenant1-router
-neutron router-gateway-set tenant1-router public
-neutron router-interface-add tenant1-router tenant1-subnet
-
-# Create security groups
-nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
-nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
-
-#add ssh key
-nova keypair-add --pub-key ~/.ssh/id_rsa.pub undercloud-key
-
-# Boot test image
-nova boot --flavor m1.tiny --image cirros --key-name undercloud-key tenant1-test1
-sleep 5
-neutron floatingip-create public
-nova add-floating-ip tenant1-test1 192.168.100.151
-
-## create sensu tenant and user for overcloud
-#source $rcfile
-#keystone tenant-create --name monitoring --description "Sensu Tenant"
-#keystone user-create --name sensu --tenant monitoring --pass sensu
-
-# create sensu tenant and user for undercloud
-#source ~/stackrc
-#keystone tenant-create --name monitoring --description "Sensu Tenant"
-#keystone user-create --name sensu --tenant monitoring --pass sensu
+openstack server create --flavor m1.small --key-name undercloud --image rhel74 --min 4 --max 4 no-tag
+openstack server create --flavor flavor_evacuable --key-name undercloud --image rhel74 --min 2 --max 2 evacuable
+openstack server create --flavor flavor_evacuable_false --key-name undercloud --image rhel74 --min 2 --max 2 not-evacuable

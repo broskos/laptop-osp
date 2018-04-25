@@ -1,24 +1,12 @@
 #This file is an example of an environment file for defining the isolated
 #networks and related parameters.
-resource_registry:
-  # Network Interface templates to use (these files must exist)
-  OS::TripleO::BlockStorage::Net::SoftwareConfig:
-    ../network/config/multiple-nics/cinder-storage.yaml
-  OS::TripleO::Compute::Net::SoftwareConfig:
-    ../network/config/multiple-nics/compute.yaml
-  OS::TripleO::Controller::Net::SoftwareConfig:
-    ../network/config/multiple-nics/controller.yaml
-  OS::TripleO::ObjectStorage::Net::SoftwareConfig:
-    ../network/config/multiple-nics/swift-storage.yaml
-  OS::TripleO::CephStorage::Net::SoftwareConfig:
-    ../network/config/multiple-nics/ceph-storage.yaml
 
 parameter_defaults:
   # This section is where deployment-specific configuration is done
   # CIDR subnet mask length for provisioning network
   ControlPlaneSubnetCidr: '24'
   # Gateway router for the provisioning network (or Undercloud IP)
-  ControlPlaneDefaultRoute: 192.168.100.1
+  ControlPlaneDefaultRoute: 192.168.100.10
   EC2MetadataIp: 192.168.100.10  # Generally the IP of the Undercloud
 #  # Customize the IP subnets to match the local environment
 #  InternalApiNetCidr: 172.17.0.0/24
@@ -54,3 +42,34 @@ parameter_defaults:
   NeutronTunnelTypes: 'vxlan'
   # Customize bonding options, e.g. "mode=4 lacp_rate=1 updelay=1000 miimon=100"
   #BondInterfaceOvsOptions: "mode=active-backup"
+
+  OvercloudControlFlavor: control
+  OvercloudComputeFlavor: compute
+  OvercloudCephStorageFlavor: ceph-storage
+  CephStorageExtraConfig:
+    ceph::profile::params::osds:
+      '/dev/vdb': {}
+      '/dev/vdc': {}
+      '/dev/vdd': {}
+
+  CephPools:
+    metrics:
+      size: 3
+      pg_num: 16
+      pgp_num: 16
+    images:
+      size: 3
+      pg_num: 128
+      pgp_num: 128
+    backups:
+      size: 3
+      pg_num: 8
+      pgp_num: 8
+    volumes:
+      size: 3
+      pg_num: 16
+      pgp_num: 16
+    vms:
+      size: 3
+      pg_num: 128
+      pgp_num: 128

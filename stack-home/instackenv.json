@@ -1,6 +1,9 @@
 {
   "nodes": [
     {
+      "mac": [
+        "52:54:00:8a:28:d0"
+      ],
       "name": "controller",
       "cpu": "2",
       "memory": "8192",
@@ -14,6 +17,25 @@
       "capabilities": "profile:control,boot_option:local"
     },
     {
+      "mac": [
+        "52:54:00:e5:32:60"
+      ],
+      "name": "ceph",
+      "cpu": "2",
+      "memory": "8192",
+      "disk": "42",
+      "arch": "x86_64",
+      "pm_user": "root",
+      "pm_addr": "192.168.122.1",
+      "pm_password": "redhat",
+      "pm_type": "pxe_ipmitool",
+      "pm_port": "638",
+      "capabilities": "profile:ceph-storage,boot_option:local"
+    },
+    {
+      "mac": [
+        "52:54:00:db:0e:57"
+      ],
       "name": "compute1",
       "cpu": "2",
       "memory": "8192",
@@ -27,6 +49,9 @@
       "capabilities": "profile:compute,boot_option:local"
     },
     {
+      "mac": [
+        "52:54:00:c3:20:28"
+      ],
       "name": "compute2",
       "cpu": "2",
       "memory": "8192",
@@ -37,6 +62,22 @@
       "pm_password": "redhat",
       "pm_type": "pxe_ipmitool",
       "pm_port": "637",
+      "capabilities": "profile:compute,boot_option:local"
+    },
+    {
+      "mac": [
+        "52:54:00:6d:2b:bb"
+      ],
+      "name": "compute3",
+      "cpu": "2",
+      "memory": "8192",
+      "disk": "42",
+      "arch": "x86_64",
+      "pm_user": "root",
+      "pm_addr": "192.168.122.1",
+      "pm_password": "redhat",
+      "pm_type": "pxe_ipmitool",
+      "pm_port": "639",
       "capabilities": "profile:compute,boot_option:local"
     }
   ]
