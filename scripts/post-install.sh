@@ -31,7 +31,7 @@ openstack keypair create --public-key ~/.ssh/id_rsa.pub undercloud
 #################################
 # Upload RHEL 7 & Cirros Image to Glance
 #################################
-openstack image create --public --file ~/images/rhel-server-7.4-x86_64-kvm.raw --disk-format raw --container bare rhel74
+openstack image create --public --file ~/images/rhel-server-7.4-x86_64-kvm.qcow2 --disk-format qcow2 --container bare rhel74
 
 openstack project create  demo2
 openstack user create --project demo2 --password redhat demo2user
@@ -50,3 +50,18 @@ openstack flavor create --ram 1024 --vcpus 2 --disk 20 --property evacuable=fals
 openstack server create --flavor m1.small --key-name undercloud --image rhel74 --min 4 --max 4 no-tag
 openstack server create --flavor flavor_evacuable --key-name undercloud --image rhel74 --min 2 --max 2 evacuable
 openstack server create --flavor flavor_evacuable_false --key-name undercloud --image rhel74 --min 2 --max 2 not-evacuable
+
+openstack server create --flavor m1.small --key-name undercloud --image rhel74 host1-a
+
+openstack server create --flavor m1.small --key-name undercloud --image rhel74 host2-a
+
+openstack server create --flavor m1.small --key-name undercloud --image rhel74 host0-a
+
+openstack server create --flavor m1.small --key-name undercloud --image rhel74 --hint group=01ac7e74-67df-4b74-bc2a-4aebbe03125e host1-a
+openstack server create --flavor m1.small --key-name undercloud --image rhel74 --hint group=01ac7e74-67df-4b74-bc2a-4aebbe03125e host1-b
+
+openstack server create --flavor m1.small --key-name undercloud --image rhel74 --hint group=e32a046e-b8ec-43dd-9723-2f280fc54867 host2-a
+openstack server create --flavor m1.small --key-name undercloud --image rhel74 --hint group=e32a046e-b8ec-43dd-9723-2f280fc54867 host2-b
+
+openstack server create --flavor m1.small --key-name undercloud --image rhel74 --hint group=f850d07f-2cdd-4b7f-aa2a-60ebaa171c26 host0-a
+openstack server create --flavor m1.small --key-name undercloud --image rhel74 --hint group=f850d07f-2cdd-4b7f-aa2a-60ebaa171c26 host0-b

@@ -1,0 +1,69 @@
+parameter_defaults:
+
+  KeystoneNotificationFormat: cadf
+
+  ControllerExtraConfig:
+#nova-api
+    nova::config::nova_config:
+      'audit_middleware_notifications/driver':
+        value: log
+    nova::config::nova_paste_api_ini:
+      'filter:audit/paste.filter_factory':
+          value: keystonemiddleware.audit:filter_factory
+      'filter:audit/audit_map_file':
+          value: /etc/pycadf/nova_api_audit_map.conf
+      'composite:openstack_compute_api_v21/keystone':
+          value: cors http_proxy_to_wsgi compute_req_id faultwrap sizelimit authtoken audit keystonecontext osapi_compute_app_v21
+      'composite:openstack_compute_api_v21_legacy_v2_compatible/keystone':
+          value: cors http_proxy_to_wsgi compute_req_id faultwrap sizelimit authtoken audit keystonecontext legacy_v2_compatible osapi_compute_app_v21
+#glance-api
+    glance::config::api_config:
+      'audit_middleware_notifications/driver':
+        value: log
+      'paste_deploy/config_file':
+        value: /etc/glance/glance-api-paste.ini
+    glance::config::api_paste_ini_config:
+      'filter:audit/paste.filter_factory':
+          value: keystonemiddleware.audit:filter_factory
+      'filter:audit/audit_map_file':
+          value: /etc/pycadf/glance_api_audit_map.conf
+      'pipeline:glance-api-keystone/pipeline':
+          value: cors healthcheck http_proxy_to_wsgi versionnegotiation osprofiler authtoken audit context rootapp
+      'pipeline:glance-api-keystone+caching/pipeline':
+          value: cors healthcheck http_proxy_to_wsgi versionnegotiation osprofiler authtoken audit context rootapp
+      'pipeline:glance-api-keystone+cachemanagement/pipeline':
+          value: cors healthcheck http_proxy_to_wsgi versionnegotiation osprofiler authtoken audit context rootapp
+#cinder-api
+    cinder::config::cinder_config:
+      'audit_middleware_notifications/driver':
+        value: log
+    cinder::config::api_paste_ini_config:
+      'filter:audit/paste.filter_factory':
+          value: keystonemiddleware.audit:filter_factory
+      'filter:audit/audit_map_file':
+          value: /etc/pycadf/cinder_api_audit_map.conf
+      'composite:openstack_volume_api_v3/keystone':
+          value: cors http_proxy_to_wsgi request_id faultwrap sizelimit osprofiler authtoken audit keystonecontext apiv3
+      'composite:openstack_volume_api_v3/keystone_nolimit':
+          value: cors http_proxy_to_wsgi request_id faultwrap sizelimit osprofiler authtoken audit keystonecontext apiv3
+      'composite:openstack_volume_api_v2/keystone':
+          value: cors http_proxy_to_wsgi request_id faultwrap sizelimit osprofiler authtoken audit keystonecontext apiv2
+      'composite:openstack_volume_api_v2/keystone_nolimit':
+          value: cors http_proxy_to_wsgi request_id faultwrap sizelimit osprofiler authtoken audit keystonecontext apiv2
+      'composite:openstack_volume_api_v1/keystone':
+          value: cors http_proxy_to_wsgi request_id faultwrap sizelimit osprofiler authtoken audit keystonecontext apiv1
+      'composite:openstack_volume_api_v1/keystone_nolimit':
+          value: cors http_proxy_to_wsgi request_id faultwrap sizelimit osprofiler authtoken audit keystonecontext apiv1
+#neutron-api
+    neutron::config::server_config:
+      'audit_middleware_notifications/driver':
+        value: log
+      'DEFAULT/api_paste_config':
+        value: /etc/neutron/api-paste.ini
+    neutron::config::api_config:
+      'filter:audit/paste.filter_factory':
+        value: keystonemiddleware.audit:filter_factory
+      'filter:audit/audit_map_file':
+        value: /etc/pycadf/neutron_api_audit_map.conf
+      'composite:neutronapi_v2_0/keystone':
+        value: cors http_proxy_to_wsgi request_id catch_errors authtoken audit keystonecontext extensions neutronapiapp_v2_0
